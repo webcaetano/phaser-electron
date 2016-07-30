@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+	<!-- @if !dist -->
+	<base href="/">
+	<!-- @endif -->
+	<meta charset="utf-8">
+	<title>Blank</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width">
+	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+</head>
+<body style="background:#f2f2f2;">
+	<!-- @if !dist -->
+	<div style="margin-top:20px"></div>
+	<!-- @endif -->
+	<div align="center">
+		<div id="master-canvas"></div>
+	</div>
+
+	<!-- build:js(src) scripts/vendor.js -->
+	<!-- bower:js -->
+	<!-- run `gulp inject` to automatically populate bower script dependencies -->
+	<!-- endbower -->
+	<!-- endbuild -->
+
+	<!-- build:js(.tmp/serve) scripts/index.js -->
+	<!-- inject:craft:js -->
+	<!-- js files will be automatically insert here -->
+	<!-- endinject -->
+	<!-- endbuild -->
+</body>
+</html>
