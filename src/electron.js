@@ -29,8 +29,6 @@ electron.app.on('ready', function () {
 		width: 700,
 		height: 800
 	});
-
-	console.log('file://' + __dirname + '/index.html')
 	mainWindow.loadURL('file://' + __dirname + '/index.html');
 
 	// if (env.name !== 'production') {

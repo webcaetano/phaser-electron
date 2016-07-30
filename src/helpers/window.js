@@ -4,11 +4,10 @@
 // instances of it and give each different name.
 
 var electron = require('electron');
-var jetpack = require('fs-jetpack');
 
 module.exports = function (name, options) {
 
-    var userDataDir = jetpack.cwd(electron.app.getPath('userData'));
+    var userDataDir = electron.app.getPath('userData');
     var stateStoreFile = 'window-state-' + name +'.json';
     var defaultSize = {
         width: options.width,
