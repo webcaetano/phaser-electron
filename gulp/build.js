@@ -5,6 +5,9 @@ var imagemin = require('gulp-imagemin');
 var pngquant = require('imagemin-pngquant');
 var exec = require('sync-exec');
 var surge = require('gulp-surge');
+var jetpack = require('fs-jetpack');
+var bundle = require('./bundle');
+var Q = require('q');
 
 var $ = require('gulp-load-plugins')({
 	pattern: ['gulp-*', 'del']
@@ -20,41 +23,52 @@ module.exports = function(options) {
 			.pipe($.if('*.js', $.uglify()))
 			.pipe($.if('*.html', $.preprocess({context: {dist: true}})))
 			.pipe($.if('*.html', $.minifyHtml({empty: true,	spare: true, quotes: true, conditionals: true})))
-			.pipe($.if('*.js', $.rev()))
-			.pipe($.revReplace())
+			// .pipe($.if('*.js', $.rev()))
+			// .pipe($.revReplace())
 
 			.pipe(gulp.dest(options.dist + '/'))
 			.pipe($.size({ title: options.dist + '/', showFiles: true }));
 	}));
 
-	gulp.task('images:dist',function(){
-		return gulp.src([
-			options.src + '/images/**/*'
-		],{ base: './src' })
-		.pipe(imagemin({
-			use: [pngquant({quality: '75-90'})]
-		}))
-		.pipe(gulp.dest(options.dist + '/'));
-	})
+
+
+	gulp.task('bundle', function () {
+	    return Q.all([
+			bundle(options.dist+'/electron.js', options.dist+'/electron.js'),
+			bundle(options.dist+'/scripts/index.js', options.dist+'/scripts/index.js'),
+		]);
+	});
+
 
 	gulp.task('other', function () {
 		return gulp.src([
-			options.src + '/favicon.ico',
-			options.src + '/404.html',
-			options.src + '/audio/**/*'
+			options.src + '/images/**/*',
+		],{ base: './src' })
+		.pipe(gulp.dest(options.dist + '/'));
+	});
+
+	gulp.task('electronFiles', function () {
+		return gulp.src([
+			options.src + '/package.json',
+			options.src + '/electron.js',
+			options.src + '/helpers/**/*',
+			options.src + '/node_modules/**/*',
 		],{ base: './src' })
 		.pipe(gulp.dest(options.dist + '/'));
 	});
 
 
 	gulp.task('clean', function () {
-		return $.del([options.dist + '/', options.tmp + '/']);
+		return $.del([
+			options.dist + '/',
+			options.tmp + '/'
+		]);
 	});
 
 
-	gulp.task('prepare',gulp.series('clean','images:dist','other'));
+	gulp.task('prepare',gulp.series('clean','other'));
 
-	gulp.task('build',gulp.series('clean','prepare','html'));
+	gulp.task('build',gulp.series('prepare','html'));
 
 	gulp.task('deploy',function(done){
 		var c = [

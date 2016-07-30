@@ -23,6 +23,7 @@ _.each([
 	'github.js',
 	'watch.js',
 	'server.js',
+	'electron.js',
 ],function(file){
 	require('./gulp/' + file)(options);
 })

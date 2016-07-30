@@ -1,0 +1,14 @@
+{
+  "name": "phaser-electron",
+  "productName": "Electron Boilerplate",
+  "description": "Starter for your Electron application",
+  "version": "0.0.0",
+  "author": "Lulu <lulu@example.com>",
+  "copyright": "© 2016, Gumby inc.",
+  "homepage": "http://example.com",
+  "license": "MIT",
+  "main": "electron.js",
+  "dependencies": {
+    "fs-jetpack": "^0.9.0"
+  }
+}
