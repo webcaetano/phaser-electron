@@ -14,28 +14,27 @@ var $ = require('gulp-load-plugins')({
 });
 
 module.exports = function(options) {
-	gulp.task('html', gulp.series('inject', function html() {
-		var assets;
-		return gulp.src(options.tmp + '/serve/*.html')
-			// .pipe($.rev())
-			.pipe($.useref())
-			.pipe($.if('*.js', $.preprocess({context: {dist: true}})))
-			.pipe($.if('*.js', $.uglify()))
-			.pipe($.if('*.html', $.preprocess({context: {dist: true}})))
-			.pipe($.if('*.html', $.minifyHtml({empty: true,	spare: true, quotes: true, conditionals: true})))
-			// .pipe($.if('*.js', $.rev()))
-			// .pipe($.revReplace())
+	// gulp.task('html', gulp.series('inject', function html() {
+	// 	var assets;
+	// 	return gulp.src(options.tmp + '/serve/*.html')
+	// 		// .pipe($.rev())
+	// 		.pipe($.useref())
+	// 		.pipe($.if('*.js', $.preprocess({context: {dist: true}})))
+	// 		.pipe($.if('*.js', $.uglify()))
+	// 		.pipe($.if('*.html', $.preprocess({context: {dist: true}})))
+	// 		.pipe($.if('*.html', $.minifyHtml({empty: true,	spare: true, quotes: true, conditionals: true})))
+	// 		// .pipe($.if('*.js', $.rev()))
+	// 		// .pipe($.revReplace())
 
-			.pipe(gulp.dest(options.dist + '/'))
-			.pipe($.size({ title: options.dist + '/', showFiles: true }));
-	}));
-
+	// 		.pipe(gulp.dest(options.dist + '/'))
+	// 		.pipe($.size({ title: options.dist + '/', showFiles: true }));
+	// }));
 
 
 	gulp.task('bundle', function () {
 	    return Q.all([
-			bundle(options.dist+'/electron.js', options.dist+'/electron.js'),
-			bundle(options.dist+'/scripts/index.js', options.dist+'/scripts/index.js'),
+			bundle(options.src+'/electron.js', options.dist+'/electron.js'),
+			bundle(options.src+'/scripts/index.js', options.dist+'/scripts/index.js'),
 		]);
 	});
 
@@ -47,15 +46,10 @@ module.exports = function(options) {
 		.pipe(gulp.dest(options.dist + '/'));
 	});
 
-	gulp.task('electronFiles', function () {
-		return gulp.src([
-			options.src + '/package.json',
-			options.src + '/electron.js',
-			options.src + '/helpers/**/*',
-			options.src + '/node_modules/**/*',
-		],{ base: './src' })
+	gulp.task('electronFiles', gulp.series('inject', function () {
+		return gulp.src(options.electronFiles,{ base: './src' })
 		.pipe(gulp.dest(options.dist + '/'));
-	});
+	}));
 
 
 	gulp.task('clean', function () {
@@ -68,7 +62,7 @@ module.exports = function(options) {
 
 	gulp.task('prepare',gulp.series('clean','other'));
 
-	gulp.task('build',gulp.series('prepare','html'));
+	gulp.task('build',gulp.series('prepare'));
 
 	gulp.task('deploy',function(done){
 		var c = [

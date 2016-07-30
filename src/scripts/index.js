@@ -14,7 +14,7 @@ var rootScope = {
 // @if !dist
 require('./modules/stats')();
 // @endif
-
+// awdwad
 
 var game = new Phaser.Game(rootScope.options.width, rootScope.options.height, Phaser.CANVAS, rootScope.options.where, rootScope.options.where);
 

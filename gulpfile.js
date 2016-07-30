@@ -16,16 +16,24 @@ var options = {
 	}
 };
 
+options.electronFiles = [
+	options.src + '/bower_components/**/*',
+	options.src + '/package.json',
+	options.src + '/electron.js',
+	options.src + '/helpers/**/*',
+	options.src + '/node_modules/**/*',
+	options.src + '/images/**/*',
+	// options.src + '/**/*.html',
+]
+
 _.each([
-	'scripts.js',
 	'inject.js',
 	'build.js',
 	'github.js',
 	'watch.js',
-	'server.js',
 	'electron.js',
 ],function(file){
 	require('./gulp/' + file)(options);
 })
 
-gulp.task('default', gulp.series('clean','serve'));
+gulp.task('default', gulp.series('clean','electron'));

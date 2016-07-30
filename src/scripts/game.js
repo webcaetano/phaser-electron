@@ -30,7 +30,7 @@ module.exports = function(game,rootScope){
 	}
 
 	state.preload = function(){
-		game.stage.disableVisibilityChange = false;
+		game.stage.disableVisibilityChange = true;
 		game.stage.backgroundColor = '#fff';
 		utils.loadAssets(game,assets);
 		game.load.start();
