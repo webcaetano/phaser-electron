@@ -39,7 +39,7 @@ module.exports = function(options) {
 				hash: false,
 				version: false
 			}));
-			// if(reload) browserSync.reload();
+			if(reload && options.electronServer) options.electronServer.reload();
 			if(watch) {
 				watch = false;
 				callback();

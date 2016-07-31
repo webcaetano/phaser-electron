@@ -1,7 +1,6 @@
 var _ = require('lodash');
 var phaser = require('phaser');
 
-// var browser = browserDetection();
 var rootScope = {
 	options:{
 		width:700,
@@ -14,8 +13,6 @@ var rootScope = {
 // @if !dist
 require('./modules/stats')();
 // @endif
-// awdwadawdawdawd
-console.log('xxxadw')
 
 var game = new Phaser.Game(rootScope.options.width, rootScope.options.height, Phaser.CANVAS, rootScope.options.where, rootScope.options.where);
 

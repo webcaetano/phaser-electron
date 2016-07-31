@@ -34,6 +34,9 @@ electron.app.on('ready', function () {
 	// if (env.name !== 'production') {
 		mainWindow.openDevTools();
 	// }
+
+	var client = require('electron-connect').client;
+	client.create(mainWindow);
 });
 
 electron.app.on('window-all-closed', function () {
