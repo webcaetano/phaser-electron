@@ -13,4 +13,9 @@ module.exports = function(options) {
 			// options.tmp + '/'
 		]);
 	});
+
+	gulp.task('electronFiles', gulp.series('inject', function () {
+		return gulp.src(options.electronFiles,{ base: './src' })
+		.pipe(gulp.dest(options.tmp + '/serve'));
+	}));
 };
