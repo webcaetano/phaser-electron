@@ -4,10 +4,53 @@ var gulp = require('gulp');
 // var browserSync = require('browser-sync');
 var gutil = require('gulp-util');
 var fs = require('fs');
+var _ = require('lodash');
 var $ = require('gulp-load-plugins')();;
 
 
 module.exports = function(options) {
+	var nodeModules = _.reduce([
+		'assert',
+		'buffer',
+		'child_process',
+		'cluster',
+		'console',
+		'constants',
+		'crypto',
+		'dgram',
+		'dns',
+		'domain',
+		'events',
+		'fs',
+		'http',
+		'https',
+		'module',
+		'net',
+		'os',
+		'path',
+		'process',
+		'punycode',
+		'querystring',
+		'readline',
+		'repl',
+		'stream',
+		'string_decoder',
+		'timers',
+		'tls',
+		'tty',
+		'url',
+		'util',
+		'v8',
+		'vm',
+		'zlib'
+	],function(resp,val,i){
+		resp[val] = "require('"+val+"')";
+
+		return resp;
+	},{});
+
+	var bowerModules = JSON.parse(fs.readFileSync('./bower.json','utf8')).externals;
+
 	function webpack(watch=false, callback=null, reload=null) {
 		var webpackOptions = {
 			watch: watch,
@@ -23,7 +66,7 @@ module.exports = function(options) {
 					if (stats.compilation.errors && stats.compilation.errors.length)gutil.beep();
 				});
 			}],
-			externals: JSON.parse(fs.readFileSync('./bower.json','utf8')).externals,
+			externals: _.extend({},bowerModules,nodeModules),
 			output: { filename: 'index.js' }
 		};
 
@@ -39,7 +82,9 @@ module.exports = function(options) {
 				hash: false,
 				version: false
 			}));
-			if(reload && options.electronServer) options.electronServer.reload();
+			if(reload && options.electronServer) {
+				options.electronServer.reload();
+			}
 			if(watch) {
 				watch = false;
 				callback();

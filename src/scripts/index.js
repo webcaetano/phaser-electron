@@ -1,22 +1,33 @@
-var _ = require('lodash');
-var phaser = require('phaser');
+var fs = require('fs');
+var Phaser = require('phaser');
+var main = require('./main');
+var pkg = JSON.parse(String(fs.readFileSync('package.json')))
 
-var rootScope = {
+var setup = {
 	options:{
 		width:700,
 		height:500,
 		where:'master-canvas'
 	},
-	debug:false // make sure set it to false when release
 }
+
+console.log('%c Phaser Electron Boilerplate v'+pkg.version+' ', 'background: #002874; color: #ffffff');
 
 // @if !dist
 require('./modules/stats')();
 // @endif
 
-var game = new Phaser.Game(rootScope.options.width, rootScope.options.height, Phaser.CANVAS, rootScope.options.where, rootScope.options.where);
+var game = main.game = new Phaser.Game(
+	setup.options.width,
+	setup.options.height,
+	Phaser.CANVAS,
+	setup.options.where,
+	null
+);
 
-game.state.add('game', require('./game')(game,rootScope));
+main.craft = require('craft')(game);
 
-// game.state.start('blank');
-game.state.start('game');
+game.state.add('game', require('./game'));
+game.state.add('preload', require('./preload'));
+
+game.state.start('preload');

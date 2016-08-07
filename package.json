@@ -1,6 +1,6 @@
 {
-  "name": "phaser-boilerplate",
-  "version": "2.1.0",
+  "name": "phaser-electron",
+  "version": "1.0.0",
   "dependencies": {},
   "scripts": {
     "test": "gulp test"

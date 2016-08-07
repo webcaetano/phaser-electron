@@ -2,11 +2,11 @@
   "name": "phaser-electron",
   "version": "0.0.0",
   "dependencies": {
-    "phaser": "~2.4.8",
+    "phaser": "~2.6.1",
     "lodash": "~4.13.1",
     "tinycolor": "~1.2.1",
     "phaser-craft": "~1.4.1",
-    "phaser-utils": "~1.0.1",
+    "phaser-utils": "^1.1.2",
     "stats.js": "*",
     "dat-gui": "git@github.com:webcaetano/dat.gui.git#53762381014f91f5d22c10515dbdec85a425c04c"
   },
@@ -16,7 +16,7 @@
     "phaser": "Phaser",
     "tinycolor": "tinycolor",
     "lodash": "_",
-    "$utils": "$utils",
+    "phaser-utils": "$utils",
     "craft": "$craft",
     "stats": "Stats"
   },
