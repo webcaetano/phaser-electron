@@ -1,6 +1,6 @@
 {
   "name": "phaser-electron",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "dependencies": {
     "phaser": "~2.6.1",
     "lodash": "~4.13.1",
